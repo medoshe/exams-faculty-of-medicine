@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Online Examination</title>
+<style>
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{font-size:clamp(11px,1.34vw,18px);height:100%}
+body{margin:0;height:100%;background:#fff;color:#1a1a1a;font-family:"Segoe UI",Tahoma,"Noto Sans Arabic",Arial,sans-serif}
+.app{height:100%;display:flex;flex-direction:column}
+header{background:#0c6e5e;color:#fff;text-align:left;padding:0 1.5rem;margin-top:1.2rem;font-size:1.35rem;font-weight:600;height:3.2rem;line-height:3.2rem;flex:none}
+.body{flex:1;display:flex;min-height:0}
+aside{width:16rem;flex:none;background:#f1f1f1;padding:.7rem .7rem .9rem;overflow:auto;display:flex;flex-direction:column}
+.timer{border:1.5px solid #c0392b;border-radius:.4rem;background:#f4f4f4;overflow:hidden;text-align:center}
+.tl{background:#e6e6e6;border-bottom:1px solid #d0d0d0;font-size:1rem;padding:.35rem .5rem;text-align:right}
+.tb{font-size:2.8rem;font-weight:700;color:#c0261f;direction:ltr;line-height:1.5;background:#fff}
+.leg{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem .8rem;margin:.8rem 0 .7rem;font-size:.75rem;color:#333}
+.leg span{display:flex;align-items:center;gap:.3rem}
+.leg i{width:.95rem;height:.95rem;border-radius:.15rem;display:block}
+hr{border:0;border-top:1px solid #c8c8c8;width:100%;margin:0 0 .8rem}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.45rem;direction:ltr;position:relative;padding:.6rem;max-height:14.5rem;overflow-y:auto;background:#fff;border:1px solid #cfcfcf;border-radius:.3rem;align-content:start}
+.s{height:1.7rem;border:0;border-radius:.2rem;background:#ef5b4c;color:#fff;font-weight:600;font-size:.9rem;font-family:inherit;padding:0;cursor:pointer}
+.s.a{background:#26b58a}
+.s.b{background:#1f6fc9}
+.s.c{outline:2px solid #1a1a1a;outline-offset:1px}
+.btns{display:flex;gap:.5rem;margin-top:1rem}#sub{background:#ef5b4c}
+.gb{flex:1;border:0;border-radius:.25rem;background:#27b4d8;color:#fff;font:inherit;font-size:.82rem;padding:.4rem .2rem;cursor:pointer}
+.card{flex:1;margin:.8rem;background:#fff;border:1px solid #dcdcdc;border-radius:.3rem;display:flex;flex-direction:column;min-width:0}
+.qa{flex:1;padding:2.6rem 1.5rem 1rem;overflow:auto;direction:ltr;text-align:left}
+.qa h2{margin:0 0 1rem;font-size:1.1rem;font-weight:700}
+.qa p{margin:0 0 1.6rem;font-size:1.1rem}
+.o{display:flex;align-items:center;gap:.5rem;font-size:1.05rem;margin-bottom:.75rem;cursor:pointer;width:fit-content}
+.o input{width:1.05rem;height:1.05rem;margin:0;accent-color:#2b5c86}
+.nav{border-top:1px solid #bdbdbd;margin:0 .9rem;padding:.9rem 0;display:flex;justify-content:flex-start;direction:ltr}
+.ta{width:100%;min-height:9rem;font:inherit;font-size:1rem;padding:.6rem;border:1px solid #bdbdbd;border-radius:.3rem;resize:vertical;direction:ltr}.nb{background:#1f6fa3;color:#fff;border:0;border-radius:.3rem;font:inherit;font-size:1rem;padding:.5rem 1.6rem;cursor:pointer}
+button:focus-visible{outline:2px solid #1f6fc9;outline-offset:2px}
+.pick{position:fixed;inset:0;background:#f1f1f1;display:flex;align-items:center;justify-content:center;z-index:4;padding:1rem}.pk{background:#fff;border:1px solid #dcdcdc;border-radius:.5rem;padding:2rem 2.5rem;text-align:center;direction:ltr;width:100%;max-width:24rem}.pk h1{margin:0 0 .6rem;font-size:1.4rem}.pk button{display:block;width:100%;margin-top:1rem;padding:.9rem;border:0;border-radius:.35rem;background:#0c6e5e;color:#fff;font:inherit;font-size:1.15rem;cursor:pointer}.pk small{display:block;font-size:.8rem;opacity:.85;margin-top:.15rem}.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:5;padding:1rem}
+.modal.on{display:flex}
+.box{background:#fff;padding:1.6rem 2rem;border-radius:.5rem;max-width:27rem;text-align:center;font-size:1.05rem;line-height:1.6}
+.box p{margin:0 0 1.2rem}
+.mb{display:flex;gap:.6rem;justify-content:center}
+.mb button{border:0;border-radius:.25rem;background:#0b6454;color:#fff;font:inherit;padding:.5rem 1.2rem;cursor:pointer}
+.mb button.alt{background:#7d8588}
+@media(max-width:800px){html{font-size:16px}.body{flex-direction:column-reverse;overflow:auto}aside{width:100%}.card{min-height:26rem}.grid{grid-template-columns:repeat(10,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>Online Examination</header>
+  <div class="body">
+    <aside>
+      <div class="timer"><div class="tl">الوقت المتبقي: <span id="ta"></span></div><div class="tb" id="tb"></div></div>
+      <div class="leg"><span><i style="background:#26b58a"></i>Solved</span><span><i style="background:#ef5b4c"></i>Unsolved</span><span><i style="background:#1f6fc9"></i>Review</span></div>
+      <hr>
+      <div class="grid" id="grid"></div>
+      <div class="btns"><button class="gb" id="sub">End Exam</button><button class="gb" id="mark">Review Exam</button></div>
+    </aside>
+    <main class="card">
+      <div class="qa"><h2 id="qh"></h2><p id="qt"></p><div id="opts"></div></div>
+      <div class="nav"><button class="nb" id="next">Next</button></div>
+    </main>
+  </div>
+</div>
+<div class="pick" id="pick"><div class="pk"><h1>Select your exam</h1><button id="b1">Midterm<small>64 questions · 65 minutes</small></button><button id="b2">Final<small>128 questions · 130 minutes</small></button></div><div class="pk" id="pk2" style="display:none"><h1>Final Exams</h1><div id="vers"></div><button id="bk" style="background:#7d8588">Back</button></div></div>
+<div class="modal" id="m"><div class="box" id="bx"><p id="mt"></p><div class="mb" id="mb"></div></div></div>
+<script>
+const $=id=>document.getElementById(id),D="٠١٢٣٤٥٦٧٨٩",ar=n=>String(n).replace(/\d/g,d=>D[d]);
+let N=64,Q={};const H="##################",L=["A","B","C","D"],BASE={};
+for(let i=1;i<=128;i++)BASE[i]={t:H,o:[H,H,H,H]};
+
+let ans={},flag={},cur=1,pend;
+function render(){
+  $("qh").textContent="Question "+cur+" of "+N+(Q[cur].w?" (Written)":"")+":";
+  $("qt").textContent=Q[cur].t;
+  $("opts").innerHTML="";
+  const sel=pend!==undefined?pend:ans[cur];
+  if(Q[cur].w){const ta=document.createElement("textarea");ta.className="ta";ta.placeholder="Write your answer here...";ta.value=sel||"";ta.oninput=()=>{pend=ta.value.trim()?ta.value:undefined};$("opts").appendChild(ta)}else Q[cur].o.forEach((o,i)=>{
+    const l=document.createElement("label");l.className="o";
+    l.innerHTML='<input type="radio" name="o"'+(sel===i?" checked":"")+'><span></span>';
+    l.lastChild.textContent=L[i]+") "+o;
+    l.querySelector("input").onchange=()=>{pend=i};
+    $("opts").appendChild(l);
+  });
+  paint();
+}
+function paint(){document.querySelectorAll(".s").forEach((b,k)=>{const i=k+1;b.className="s"+(flag[i]?" b":ans[i]!==undefined?" a":"")+(i===cur?" c":"")})}
+function scrollToQ(i){const g=$("grid"),b=g.children[i-1];if(b)g.scrollTo({top:b.offsetTop-parseFloat(getComputedStyle(g).paddingTop),behavior:"smooth"})}
+function modal(text,btns,dir){
+  $("bx").dir=dir;$("mt").textContent=text;$("mb").innerHTML="";
+  btns.forEach(b=>{const e=document.createElement("button");e.textContent=b[0];if(b[2])e.className="alt";e.onclick=()=>{$("m").classList.remove("on");b[1]&&b[1]()};$("mb").appendChild(e)});
+  $("m").classList.add("on");
+}
+function guard(fn){
+  if(pend!==undefined&&pend!==ans[cur])
+    modal("This question is not saved. You must press Next to save your answer. You can leave the question unsaved, or go back to it and press Next.",[["Leave unsaved",()=>{pend=undefined;fn()},1],["Go back"]],"ltr");
+  else fn();
+}
+function go(i){cur=i;pend=undefined;render()}
+function done(){clearInterval(timer);modal("Exam finished. Solved questions: "+Object.keys(ans).length+" of "+N+".",[["Back to exams",()=>{$("pick").style.display="flex"}]],"ltr")}
+function buildGrid(){$("grid").innerHTML="";for(let i=1;i<=N;i++){const b=document.createElement("button");b.className="s";b.textContent=i;b.onclick=()=>guard(()=>go(i));$("grid").appendChild(b)}}
+$("next").onclick=()=>{if(pend===undefined&&ans[cur]===undefined){modal("Not allowed. You must select an answer before pressing Next. To move to another question without answering, click it in the question grid.",[["OK"]],"ltr");return}const p=cur;if(pend!==undefined){ans[cur]=pend;pend=undefined}go(cur<N?cur+1:cur);scrollToQ(p)};
+$("mark").onclick=()=>{flag[cur]?delete flag[cur]:flag[cur]=1;paint()};
+$("sub").onclick=()=>guard(done);
+let s=0,timer;
+function tick(){const p=n=>String(n).padStart(2,"0"),t=p(Math.floor(s/3600))+":"+p(Math.floor(s%3600/60))+":"+p(s%60);$("tb").textContent=t;$("ta").textContent=ar(t)}
+const M=`All are anterior relations of the left kidney, except:|Spleen|Tail of pancreas|2nd part of duodenum|Stomach
+Renal artery is a branch of:|Abdominal aorta|Inferior vena cava|Common iliac artery|Inferior phrenic artery
+The posterior relation of the urinary bladder in the female is:|Rectum|Anterior wall of vagina|Body of the uterus|Fallopian tubes
+All are true about ovaries, except:|Mixed glands producing ova & female hormones|They are external genital organs|Primary sex organs in females|Almond-shaped
+The part of the Fallopian tube in which fertilization occurs is:|Infundibulum|Ampulla|Isthmus|Intra-mural part
+The layer of endometrium shed during menstruation is:|Functional layer|Epimetrium|Basal layer|Myometrium
+The site for spermatogenesis is:|Seminiferous tubules|Vasa efferentia|Rete testis|Epididymis
+The whitish fibrous capsule of the testis is known as:|Tunica albuginea|Tunica vaginalis|Scrotum|Cremasteric muscle
+Cells that produce testosterone after puberty are:|Sertoli cells|Prostatic gland cells|Interstitial (Leydig) cells|Seminal vesicles
+It has alkaline secretion which constitutes about 40% of seminal volume:|Sertoli cells|Prostatic gland|Interstitial cells|Seminal vesicle
+Its secretion is about 40% of semen to neutralize vaginal acidity:|Prostate|Seminal vesicles|Cowper's glands|Goblet cells
+A morphological change in spermatids to become mature sperms:|Spermatogenesis|Spermiogenesis|Sperm capacitation|Acrosomal reaction
+A description for dead sperms in semen:|Azoospermia|Necrozospermia|Oligozospermia|Polyzospermia
+A secondary oocyte chromosomal material is:|Haploid|Diploid|Triploid|Polyploidy
+It is produced by high levels of LH-hormone (surge):|Follicular phase|Ovulation|Corpus luteal phase|Fertilization
+Alteration of zona pellucida to prevent polyspermy is mediated by:|Acrosomal enzymes|Ova shrinkage|Cortical granules|Corona radiata
+When the placenta is low and covers completely the internal os:|Placenta previa centralis|Placenta previa lateralis|Fundal placenta|Tubal pregnancy
+The normal site of implantation is:|Posterior wall near the fundus of uterus|Ampulla of Fallopian tube|Lower uterine segment|Covering the internal os
+A fused protoplasmic mass secreting proteolytic enzymes & hCG:|Cytotrophoblast|Syncytiotrophoblast|Epiblast|Hypoblast
+A hormone of LH-like activity that maintains corpus luteum until 4th month:|LH|hCG|FSH|Estrogen
+A tubular extension of secondary yolk sac into the connecting stalk is:|Cloaca|Hindgut|Allantois|Vitelline duct
+The intrafetal part of allantois is involved in development of:|Rectum|Urinary bladder|Kidney|Anal canal
+The layer of mesoderm in chorionic vesicle stage, which covers the amniotic cavity & lines the cytotrophoblast:|Visceral layer of extra-embryonic mesoderm|Parietal layer of extra-embryonic mesoderm|Visceral layer of intra-embryonic mesoderm|Parietal layer of intra-embryonic mesoderm
+Notochordal plate stage is characterized by a temporary communication between amniotic cavity & yolk sac, called:|Notochordal canal|Neuro-enteric canal|Allantois|Vitelline duct
+The nucleus pulposus of the intervertebral disc is developed from remnants of:|Primitive streak|Primitive node|Notochord|Neural tube
+The cranial neuropore of the neural tube closes at about:|18th day|20th day|22nd day|24th day
+Rupture of bucco-pharyngeal membrane gives rise to:|Mouth opening|Anus|Primitive node|Allantois
+A caudal midline linear thickening of embryonic disc, site of epiblast invagination is:|Neural tube|Notochord|Primitive streak|Allantois
+Hindgut is the result of:|Head fold|Tail fold|Lateral fold|Formation of umbilical ring
+A derivative of intermediate mesoderm is:|Mouth vestibule|Lining of intestinal tract|Kidneys|Peritoneum
+The dorsolateral portion of somites forms:|Dermo-myotome|Vertebrae|Sclerotome|Ribs
+By the end of the 4th week of development, the number of somites is about:|20|30|40|50
+Crown-rump length at the 8th week of development is about:|5 mm|10 mm|15 mm|25 mm
+By the end of the 2nd month of pregnancy, the following is correct:|The heart is completely developed|The umbilical hernia is completely reduced|All primary ossification centers are formed|CRL is about 5 inches
+Rapid weight gain of fetus occurs at:|First trimester|Second trimester|Last trimester|After delivery
+Lanugo hair is described as:|Temporary body hair of fetus in mid-pregnancy|Permanent body hair at end of pregnancy|Scalp hair|Nasal vestibule hairs
+Body length by the end of pregnancy is about:|36 cm|50 cm|75 cm|100 cm
+After the 5th month of development, the main source of amniotic fluid is:|Secretion of amnioblasts|Urine formed by kidney|Secretions by developing gut|Sweating
+It is completely degenerated in full-term umbilical cord:|Left umbilical vein|Mesoderm of connecting stalk|Vitello-intestinal duct|Amniotic membrane
+The maternal part of placenta is formed by:|Chorion frondosum|Decidua capsularis|Decidua basalis|Amniotic membrane
+These villi extend between the decidual & chorionic plates for placental fixation:|Chorion laeve|Stem villi|Free villi|Primary villi
+Components of the placental barrier, except:|Cytotrophoblast|Syncytiotrophoblast|Endothelium of fetal capillaries|Endothelium of maternal capillaries
+A description for double-lobed placenta:|Bi-partite placenta|Tri-partite placenta|Placenta succenturiata|Placenta increta
+Twins formed by splitting at chorionic vesicle stage lead to:|Fraternal twins|Common chorion but separate amnion|Common chorion & amnion|Separate chorion & amnion
+Fusion of twins at the head is called:|Cranio-pagus twins|Thoraco-pagus twins|Pygo-pagus twins|Parasitic twins
+Two minor anomalies increase the chance to have a major one up to:|5%|10%|20%|30%
+The disorder occurs during organ formation:|Malformation|Disruption|Deformation|Syndrome
+Club foot due to compression in the amniotic cavity is an example of:|Malformation|Disruption|Deformation|Syndrome
+Genetic causes of teratogenesis account for about:|10%|15%|25%|50%
+Aspiration of amniotic fluid for biochemical analysis is known as:|Amniocentesis|Paracentesis|Chorionic villi sampling|Intrauterine surgery
+When the two chromatids are attached by centromere near to their ends:|Metacentric|Submetacentric|Acrocentric|Telocentric
+When the cell contains paired chromosomes, it is described as:|Haploid|Diploid|Triploid|Polyploidy
+A reciprocal reattachment of piece of chromatid:|Deletion|Inversion|Translocation|Iso-chromosome
+Failed separation of two chromatids during Anaphase of cell division:|Translocation|Iso-chromosome|Ring chromosome|Nondisjunction
+Genetic structure is: 44 + XXY, description for:|Down syndrome|Turner syndrome|Klinefelter syndrome|Cri-du chat syndrome
+A description for low sperm count:|Azoospermia|Necrozospermia|Oligozospermia|Polyzospermia
+A mature ovum is formed by 2nd meiosis:|In early fetal life|By LH surge|After fertilization|After implantation
+They are all signs of ovulation, except:|Raised basal body temperature|Breast tenderness|Abdominal pain|Decreased cervical secretions of the uterus
+It is characterized by regeneration of the functional layer of endometrium:|Menstrual phase|Proliferative phase|Secretory phase|Ovulation
+It occurs by removal of sperm surface coating proteins by cervical secretion:|Sperm maturation|Sperm capacitation|Spermiogenesis|Acrosomal reaction
+Entrance of the head of sperm into 2ry oocyte occurs in what stage of fertilization?|Stage-I|Stage-II|Stage-III|Stage-VI
+They are all characteristics of morula, except:|Surrounded by zona pellucida|Still inside fallopian tube|32 cell stage|Containing a blastocele cavity
+It is mediated by proteolytic enzymes secreted by trophoblast to invade endometrium:|Fertilization|Cleavage|Implantation|Acrosomal reaction
+When the placenta is low and its margin is nearby the internal os:|Placenta previa centralis|Placenta previa lateralis|Fundal placenta|Tubal pregnancy
+They are the first presentation for utero-placental circulation:|Lacunae|Extraembryonic mesoderm|Primitive streak|Intraembryonic mesoderm
+It gives off all the three germ layers:|Cytotrophoblast|Syncytiotrophoblast|Epiblast|Hypoblast
+The chorionic cavity separates the embryonic vesicle from the trophoblast, except at the point of:|Cumulus oophorus|Connecting stalk|Allantois|Secondary yolk sac
+Gastrulation means migration of proliferating epiblast towards the ..........:|Primitive streak & node|Notochord|Neural tube|Bucco-pharyngeal membrane
+They are all derivatives of neural crest cells, except:|Sensory ganglia|Melanocytes|Anterior horn cells of spinal cord|Schwann cells
+Its remnant is a hydrous nucleus in the center of the intervertebral disc:|Neural tube|Notochord|Primitive streak|Allantois
+Foregut is the result of:|Head fold|Tail fold|Lateral fold|Formation of umbilical ring
+They are derivatives of ectoderm, except:|Epidermis of skin|Middle ear|Nervous system|Cornea of eye
+It's a derivative of endoderm:|Mouth vestibule|Lining of intestinal tract|Kidneys|Peritoneum
+The ventromedial portion of somites which forms vertebrae is:|Dermatome|Myotome|Sclerotome|Dermo-myotome
+By the end of the 2nd month of pregnancy, they are all features of embryo, except:|The heart is completely developed|The umbilical hernia is completely reduced|Limbs are segmented|CRL is about one inch
+During the 4th month of pregnancy, fetal weight is about:|Less than 100 gm|Less than 500 gm|One kilogram|Two kilograms
+After folding, this cavity surrounds the whole embryo:|Amniotic cavity|Yolk sac|Chorionic cavity|Uterine cavity
+Alteration of the structure of zona pellucida to prevent polyspermy is mediated by:|Acrosomal enzymes|Ova shrinkage|Cortical granules|Corona radiata
+The normal site of implantation is at:|Posterior wall near fundus of uterus|Ampulla of Fallopian tube|Lower uterine segment|Covering the internal os
+A fused protoplasmic mass concerned with proteolytic enzymes & hCG:|Cytotrophoblast|Syncytiotrophoblast|Epiblast|Hypoblast
+The center of the intervertebral disc is derived from remnants of:|Primitive streak|Primitive node|Notochord|Neural tube
+The cranial neuropore of the neural tube is closed at about:|18th day|20th day|22nd day|24th day
+It's a derivative of intermediate mesoderm:|Mouth vestibule|Lining of intestinal tract|Kidneys|Peritoneum
+The maximum rate of the weight gain for fetus occurs at:|First trimester of pregnancy|Second trimester of pregnancy|Last trimester of pregnancy|After delivery
+Lanugo hair is a description for:|Temporary body hair of the fetus at the middle of pregnancy|Permanent body hair at the end of pregnancy|Scalp hair|Hairs of the nasal vestibule
+The body length, by the end of pregnancy is about:|36 cm|50 cm|75 cm|One meter
+After the 5th month of fetal development, the main source of amniotic fluid is:|Secretion of amnioblasts|Urine formed by the kidney|Secretions by developing gut|Sweating
+A morphological change that occurs in spermatids to be mature sperms:|Spermatogenesis|Spermiogenesis|Sperm capacitation|Acrosomal reaction
+A caudal midline linear thickening of the embryonic disc. It is the site of invagination of epiblast:|Neural tube|Notochord|Primitive streak|Allantois`.split("\n").map(l=>{const p=l.split("|");return{t:p[0],o:p.slice(1)}});
+const W=`Define a neuron and state its structural components.
+Enumerate the main parts of the brain.
+List the three protective membranes (meninges) covering the brain from outward to inward.
+Enumerate the three parts that form the brainstem.
+State the functional role of the cerebellum.
+Enumerate the segments of the spinal cord and give the count for each group.
+State the functions associated with the posterior, anterior, and lateral horns of the spinal cord grey matter.
+Enumerate the cranial nerves that arise from the midbrain.
+State the composition of each spinal nerve root and the location of its cell bodies.
+State the origin of the sympathetic and parasympathetic divisions of the autonomic nervous system.
+Enumerate the internal genital organs of the female genital system.
+State the functions of the ovary.
+Enumerate the four parts of the fallopian tube.
+State the normal position and dimensions of the uterus in the virginal state.
+Enumerate the three layers of the endometrium.
+Enumerate the external and internal genital organs of the male genital system.
+State the endocrine and exocrine functions of the testis.
+State the functions of Sertoli cells and Leydig cells in the testis.
+Enumerate the parts and functions of the epididymis.
+State the contributions of the prostate gland and seminal vesicles to the seminal fluid.
+Define karyotyping.
+Classify chromosomes according to the position of the centromere.
+State the chromosome number found in normal human somatic and gamete cells.
+Enumerate the seven groups of human chromosomes based on size and centromere position.
+List five structural anomalies of chromosomes.
+Define non-disjunction and state its outcome on daughter cells.
+State the genetic structure and features of Down syndrome.
+State the clinical features and chromosomal complement of Klinefelter syndrome.
+State the karyotype and features of Turner syndrome.
+Enumerate numerical anomalies of chromosomes.
+Define spermatogenesis.
+State the site, time, and duration of spermatogenesis.
+Enumerate the four stages of spermatogenesis.
+Describe the events of the proliferation and growth stages of spermatogenesis.
+State the outcomes of the first and second maturation divisions during spermatogenesis.
+Enumerate the structural transformations that occur during spermiogenesis.
+List the four parts of a mature sperm.
+Enumerate abnormal forms of sperms mentioned in the text.
+State the normal volume, sperm count, and source composition of seminal fluid.
+Define azoospermia, oligospermia, and necrospermia.
+Define the ovarian cycle and state its usual periodicity.
+State the source of GnRH and its action on the anterior pituitary during the ovarian cycle.
+State the site and formation of the prechordal plate (oropharyngeal membrane) and its future significance.
+Differentiate between the primitive streak and primitive node regarding their formation.
+Define the cloacal membrane and state its location and future significance.
+Enumerate the three sequential stages leading to the formation of the definitive notochord.
+Mention three functions of the notochord and name two structures derived from its remnants.
+State the initial cranial and caudal limits of the notochord and how its extent changes after degeneration of the primitive streak and node.
+Describe briefly the formation of the neural tube and neural crest from the ectoderm.
+Define the allantois and state its future developmental contribution.
+State the changes in the shape of the embryonic disc during growth and the cause of its cephalic elongation.
+Compare the timing of germ layer differentiation in the cephalic and caudal parts of the embryonic disc. State the fate of the primitive streak by the end of the fourth week.
+How many somites does the embryo have at the end of the 4th week?
+Mention the main external features of the embryo at the end of the 4th week.
+What measurement is used to express the age of the embryo during the 2nd month?
+Define crown-rump length (CRL).
+State when all vital organs are formed.
+Describe the head of the embryo by the end of the 2nd month.
+What is physiological hernia, and when does it occur?
+Mention TWO features of the heart by the end of the 2nd month.
+Describe the external genitalia and primitive tail by the end of the 2nd month.
+State the length and weight of the embryo by the end of the 2nd month.
+What characterizes the fetal period from the 3rd month to birth?
+During which months is growth in length more rapid, and when does fetal weight increase most rapidly?
+Mention THREE changes in the face during the third month.
+State when primary ossification centers appear in the long bones and skull.
+Mention TWO important changes that occur by the 12th week of fetal development.
+Enumerate THREE features of fetal development during the 4th-5th months.
+State the approximate CRL and weight of the fetus at the end of the 5th month.
+Define lanugo hairs and state the period during which they cover the fetal skin.
+Define vernix caseosa and state its function.
+State the weight, crown-rump length, and crown-heel length of the fetus at birth.
+When does folding of the embryo occur?
+Mention the THREE types of embryonic folding that occur simultaneously.
+State what happens to the three layers of the embryonic disc during folding.
+What happens to the opposite similar structures at the end of folding?
+Describe the final position of the brain and heart following head folding.
+State the position of the buccopharyngeal membrane following head folding.
+Mention TWO structures formed as a result of head and tail folding.
+State the changes in the position of the connecting stalk and allantois following tail folding.
+What does lateral folding lead to the formation of?
+Enumerate the FOUR contents of the umbilical ring.
+Define cell cycle or cell-division cycle.
+Enumerate the two main phases of the cell cycle.
+List the three phases that comprise interphase.
+State the two possible pathways a cell can move into after the G1 phase.
+What does the S phase of the cell cycle include?
+Enumerate the four stages of mitosis.
+State what forms a chromosome during prophase.
+Describe the arrangement of chromosomes during metaphase.
+State what the constriction ring responsible for splitting the cell during telophase is composed of.
+State the two main forms of cell death discussed.
+Define stem cells based on their cellular state.
+State the four main criteria used to define stem cells.
+Classify stem cells according to their differentiating ability.
+Enumerate the cell types produced by neural stem cells.
+List the four steps involved in the generation of induced pluripotent stem (IPS) cells.
+Compare the self-renewal capacity of stem cells and progenitor cells.
+Classify tissues according to their regeneration potential.
+State examples of permanent tissues in the human body.
+Enumerate the four main challenges in stem cell therapy.
+State three solutions to address the challenges of stem cell research and therapy in developing countries.
+State the general characters of epithelial tissue.
+Classify covering and lining epithelium according to the number of cell layers.
+List the sites where simple squamous epithelium is found.
+Enumerate the types of surface layer cells found in stratified epithelium.
+State the three cell types found in neuroepithelium.
+Classify exocrine glands according to their mode of secretion.
+List the three junctions that form the junctional complex from above downward.
+State the structural composition of the axoneme (shaft) of a cilium.
+State the two main layers that compose the basement membrane.
+Enumerate the general characteristics of connective tissue.
+Enumerate the three main components of connective tissue.
+State the two main categories of connective tissue cells based on their population stability.
+List the functions of macrophages in connective tissue.
+State the microscopic characteristics of plasma cells under light microscopy and electron microscopy.
+Enumerate the substances contained within the granules of mast cells.
+Classify the types of collagen based on their tissue distribution and form.
+State the sites and functions of brown adipose tissue.
+Enumerate the sites where mucoid tissue is found in the body.
+Distinguish between regular and irregular white fibrous tissue with examples of each.
+State the general characters of cartilage.
+Enumerate the cells of cartilage.
+State the functions of chondroblasts.
+Enumerate the sites where hyaline cartilage is found.
+State the structural components of the hyaline cartilage matrix.
+Enumerate the two layers of the perichondrium and their composition.
+List the sites where elastic cartilage is found.
+State the structural and staining characteristics of fibrocartilage matrix.
+Enumerate the two methods of cartilage growth.
+State the primary reason for the poor capacity of cartilage for repair or regeneration.
+Enumerate the main functions of bone.
+Enumerate the organic and inorganic components of the bone matrix.
+State the two layers of the periosteum and their composition.
+State the origin and functions of osteoblasts.
+Describe the microscopic characteristics and functions of osteocytes.
+Enumerate the structural components of a Haversian system (osteon) in compact bone.
+Define Sharpey's fibers and state their function.
+Compare the sites of occurrence between intra-membranous and endochondral ossification.
+Enumerate the five zones found in the epiphyseal plate from epiphysis to diaphysis.
+State the mechanism by which osteoclasts resorb bone tissue.
+Outline the steps in the repair of bone fractures.
+Mention main results of fertilization.
+Where does cleavage normally occur?
+What is a morula, and when is it formed?
+What happens to the morula in the uterine cavity before blastocyst formation?
+What are the two main parts of the blastocyst, and what are their roles?
+When does the zona pellucida disappear, and why is this important?
+What is implantation and what is the normal implantation site?
+What are the two layers formed by the trophoblast, and what is the function of each?
+What are the abnormal sites of intrauterine implantation?
+What are the common types of ectopic pregnancy, and which is the most frequent?
+Where does a tubal pregnancy usually occur and what are the risks?
+Name the three parts of the decidua and their locations.
+What is the allantois and its future function?
+What are the two layers of the extraembryonic mesoderm and their roles?
+Name two functions of amniotic fluid.
+Define polyhydramnios and give one cause.
+What is the main source of amniotic fluid after the 5th month?
+Define oligohydramnios and give one cause.
+What is amniotic band syndrome?
+Difference between dizygotic and monozygotic twins in terms of genetics.
+Difference in fetal membranes between dizygotic and monozygotic twins.
+What are conjoined twins, and how are they classified?
+How can maternal diabetes affect fetal development?
+What is a malformation? Give an example.
+What is a disruption? Give an example.
+What is a deformation? Give an example.
+Define teratogen.
+Name four methods used for prenatal diagnosis of birth defects.
+What is the role of maternal serum alpha-fetoprotein (AFP)?
+How is amniocentesis performed and what is it used for?
+Enumerate two functions of fibroblast.
+Mention the LM picture of macrophages.
+Enumerate types of collagen fiber and their location.
+Mention the types & sites of adipose fat.
+Recall origin, and 3 functions of macrophage.
+List 4 functions of unilocular fat cells.
+Enumerate 2 characters of connective tissue.
+Cartilage is considered a type of CT bearing mechanical stresses and support tissue. List the names of the components of the general structure of cartilage?
+List names of types of cartilage with reference to their site in the body?
+Enumerate types of cartilage growth.
+Bone is considered a type of CT with a hard matrix. Classify the bone matrix.
+Osteoclasts are considered bone-eating cells and have a structure to adapt their function. Give a short account of the origin, structure, and functions of these cells.`.split("\n").map(t=>({t,w:1}));
+function seeded(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const shufS=(a,r)=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function buildFinal(v){const r=seeded(v*7919+13),q={};shufS(M,r).slice(0,89).concat(shufS(W,r).slice(0,39)).forEach((x,i)=>q[i+1]=x);return q}
+const EX={mid:{n:64,m:65},fin:{n:128,m:130}};
+function begin(k){const f=k[0]=="f";Q=f?buildFinal(+k.slice(1)):BASE;N=f?Object.keys(Q).length:EX.mid.n;ans={};flag={};cur=1;pend=undefined;s=EX[f?"fin":k].m*60;buildGrid();tick();render();$("pick").style.display="none";pk2.style.display="none";pk1.style.display="block";clearInterval(timer);timer=setInterval(()=>{if(s>0){s--;tick();if(!s)done()}},1000)}
+function choose(k,name){const e=EX[k[0]=="f"?"fin":k];modal("You are about to start the "+name+" exam ("+e.n+" questions). The exam will start now and the timer will begin ("+e.m+" minutes). Do you want to start?",[["Start Exam",()=>begin(k)],["Cancel",null,1]],"ltr")}
+$("b1").onclick=()=>choose("mid","Midterm");
+const pk1=$("b1").parentNode,pk2=$("pk2");
+for(let v=1;v<=5;v++){const b=document.createElement("button");b.innerHTML="Final Exam "+v+"<small>128 questions · 130 minutes</small>";b.onclick=()=>choose("f"+v,"Final (Exam "+v+")");$("vers").appendChild(b)}
+$("b2").onclick=()=>{pk1.style.display="none";pk2.style.display="block"};
+$("bk").onclick=()=>{pk2.style.display="none";pk1.style.display="block"};
+tick();
+</script>
+</body>
+</html>
