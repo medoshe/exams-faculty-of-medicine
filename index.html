@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>el website</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--g:#0a8a6a;--g2:#10a37f;--ink:#0b1f3a;--mut:#4f6470;--mint:#d9f3ea;--bg:#eefaf6;--card:#fff;--line:#d6ebe3;--sh:0 10px 30px rgba(10,138,106,.12);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:110px;scroll-padding-top:calc(110px + env(safe-area-inset-top,0px))}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden;line-height:1.5}
+.blob{position:absolute;border-radius:50%;background:var(--mint);z-index:-1;opacity:.7}
+section{position:relative;padding:90px 24px;max-width:1240px;margin:auto}
+a{color:inherit;text-decoration:none}
+/* nav */
+header{position:fixed;top:14px;top:calc(14px + env(safe-area-inset-top,0px));left:0;right:0;z-index:50;padding:0 24px}
+nav{max-width:1192px;margin:auto;background:var(--card);border-radius:40px;padding:10px 10px 10px 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--sh);transition:box-shadow .3s}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:26px;color:var(--g);letter-spacing:-.5px}
+.logo b{color:var(--ink)}.logo b+span{color:var(--g)}
+.logo svg{width:44px;transition:transform .4s}.logo:hover svg{transform:rotate(-8deg) scale(1.1)}
+.links{display:flex;align-items:center;gap:34px;margin-left:auto}
+.links a.nl{position:relative;font-weight:500;padding:6px 0;transition:color .2s}
+.links a.nl::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:100%;background:var(--g);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.links a.nl:hover,.links a.nl.on{color:var(--g)}
+.links a.nl:hover::after,.links a.nl.on::after{transform:scaleX(1)}
+.oe{display:flex;align-items:center;gap:8px;color:var(--g);font-weight:700;padding-left:26px;border-left:1.5px solid var(--line);transition:transform .2s}
+.oe:hover{transform:translateY(-2px)}
+.oe svg{width:26px}
+.btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--g),var(--g2));color:#fff;font-weight:600;border:0;border-radius:40px;padding:14px 26px;font:inherit;font-weight:600;cursor:pointer;box-shadow:0 8px 20px rgba(10,138,106,.3);transition:transform .25s,box-shadow .25s}
+.btn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 14px 28px rgba(10,138,106,.4)}
+.btn:active{transform:scale(.97)}.btn svg{width:20px;transition:transform .25s}.btn:hover .arr{transform:translateX(5px)}
+.menu{display:none;margin-left:auto;background:none;border:0;width:40px;height:40px;color:var(--ink);cursor:pointer}
+/* hero */
+#home{min-height:100vh;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:30px;padding-top:140px}
+.pill{display:inline-flex;align-items:center;gap:14px;background:var(--mint);border-radius:30px;padding:10px 20px;font-size:15px;font-weight:500}
+.pill svg{width:20px;color:var(--g)}
+h1{font-size:clamp(46px,7vw,84px);line-height:.98;font-weight:800;letter-spacing:-2.5px;margin:26px 0 22px}
+h1 span{display:block;background:linear-gradient(90deg,var(--g),var(--g2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:19px;color:var(--mut);max-width:520px;margin-bottom:34px}
+.stage{position:relative;height:440px;perspective:1000px}
+.laptop{position:absolute;right:30px;top:60px;width:420px;transform:rotateY(-14deg) rotateX(4deg);animation:float 6s ease-in-out infinite;transition:transform .2s}
+.screen{background:#2d3f43;border-radius:16px;padding:12px;box-shadow:0 30px 50px rgba(10,60,50,.25)}
+.screen .in{background:#fff;border-radius:8px;padding:16px;height:240px;color:#0b1f3a}
+.base{height:16px;background:linear-gradient(#9db0b0,#6c8283);border-radius:0 0 40px 40px;margin:0 -24px;box-shadow:0 20px 30px rgba(10,60,50,.2)}
+.top{display:flex;justify-content:space-between;font-weight:700;font-size:15px;margin-bottom:14px}
+.opt{display:flex;align-items:center;gap:10px;margin:10px 0;padding:8px;border-radius:8px}
+.opt i{width:15px;height:15px;border:2px solid #b7c4c4;border-radius:50%;flex:none}
+.opt u{height:9px;border-radius:5px;background:#e3eaea;flex:1;max-width:60%}
+.opt.sel{background:#d9f3ea}.opt.sel i{border-color:var(--g);background:radial-gradient(var(--g) 45%,transparent 50%)}
+.opt.sel u{background:#b9e6d6}
+.books{position:absolute;left:-10px;bottom:70px;width:170px;animation:float 7s ease-in-out -2s infinite}
+.cap{position:absolute;right:-10px;top:0;width:130px;animation:float 5s ease-in-out -1s infinite;transform:rotate(12deg)}
+@keyframes float{50%{translate:0 -14px}}
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;grid-column:1/-1;margin-top:44px}
+.fc{display:flex;align-items:center;gap:18px;background:var(--card);padding:24px;border-radius:20px;box-shadow:var(--sh);border:1px solid transparent;transition:transform .3s,border-color .3s,box-shadow .3s;will-change:transform}
+.fc:hover{transform:translateY(-6px);border-color:var(--g);box-shadow:0 18px 40px rgba(10,138,106,.22)}
+.ic{flex:none;width:76px;height:76px;border-radius:50%;background:var(--mint);display:grid;place-items:center;color:var(--g);transition:transform .35s}
+.ic svg{width:36px}.fc:hover .ic{transform:rotate(-10deg) scale(1.12)}
+.fc h3{font-size:19px}.fc p{color:var(--mut);font-size:14.5px}
+.go{margin-left:auto;flex:none;width:38px;height:38px;border-radius:50%;background:var(--mint);color:var(--g);display:grid;place-items:center;transition:.3s}
+.fc:hover .go{background:var(--g);color:#fff;transform:translateX(4px)}.go svg{width:16px}
+/* titles */
+.sec-t{text-align:center;max-width:680px;margin:0 auto 54px}
+.sec-t h2{font-size:clamp(32px,4.5vw,48px);letter-spacing:-1.2px;line-height:1.1;margin-bottom:14px}
+.sec-t p{color:var(--mut);font-size:18px}
+/* exams */
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.shot{background:var(--card);border-radius:22px;padding:14px;box-shadow:var(--sh);transition:transform .35s,box-shadow .35s;will-change:transform}
+.shot:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 24px 50px rgba(10,138,106,.25)}
+.shot img,.mock{width:100%;aspect-ratio:16/11;border-radius:12px;object-fit:cover;display:block}
+.mock{background:#f4faf8;border:1px solid var(--line);padding:14px;color:#0b1f3a;font-size:12px;overflow:hidden}
+.mock .bar{height:6px;border-radius:4px;background:#d9ece5;margin:6px 0}
+.mock .bar.s{width:60%}.mock .bar.xs{width:35%}
+.mock .hd{display:flex;justify-content:space-between;font-weight:700;margin-bottom:10px}
+.mock .q{background:#fff;border-radius:8px;padding:8px;margin:7px 0;display:flex;gap:8px;align-items:center}
+.mock .q i{width:11px;height:11px;border:2px solid #b7c4c4;border-radius:50%}
+.mock .q.sel{background:#d9f3ea}.mock .q.sel i{border-color:var(--g);background:var(--g)}
+.mock .ring{width:90px;height:90px;border-radius:50%;margin:8px auto;background:conic-gradient(var(--g) 0 78%,#d9ece5 0);display:grid;place-items:center;font-weight:800;font-size:20px}
+.mock .ring b{background:#f4faf8;width:66px;height:66px;border-radius:50%;display:grid;place-items:center}
+.shot h4{margin:16px 6px 2px;font-size:17px}.shot p{margin:0 6px 8px;color:var(--mut);font-size:14px}
+/* about */
+#about{padding-bottom:40px}
+.ab{background:var(--card);border-radius:32px;box-shadow:var(--sh);padding:56px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;position:relative;overflow:hidden}
+.ab h2{font-size:clamp(30px,4vw,44px);letter-spacing:-1px;line-height:1.1;margin-bottom:16px}
+.ab p{color:var(--mut);font-size:18px;max-width:540px}
+.tags{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.tags span{background:var(--mint);color:var(--g);font-weight:600;padding:8px 18px;border-radius:30px;transition:transform .25s}
+.tags span:hover{transform:translateY(-3px) scale(1.06)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stat{background:var(--bg);border-radius:20px;padding:24px;text-align:center;transition:transform .3s}
+.stat:hover{transform:scale(1.06)}
+.stat .ic{margin:0 auto 12px;width:60px;height:60px}.stat .ic svg{width:28px}
+.stat b{display:block;font-size:15px}
+footer{text-align:center;padding:30px;color:var(--mut);font-size:14px}
+/* reveal */
+.rv{opacity:0;translate:0 36px;scale:.96}
+.rv.in{opacity:1;translate:none;scale:none;animation:rise .8s cubic-bezier(.2,.7,.2,1) var(--d,0s) backwards}
+@keyframes rise{from{opacity:0;translate:0 36px;scale:.96}}
+.rv.in .ic svg,.rv.in .go svg{animation:pop .7s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(var(--d,0s) + .25s)}
+@keyframes pop{from{transform:scale(0) rotate(-90deg);opacity:0}to{transform:none;opacity:1}}
+@media(max-width:980px){
+ .links{display:none;position:absolute;top:70px;left:20px;right:20px;background:var(--card);border-radius:24px;padding:20px;flex-direction:column;align-items:flex-start;box-shadow:var(--sh)}
+ .links.open{display:flex}.oe{border:0;padding:0}.menu{display:block}
+ #home{grid-template-columns:1fr}.stage{height:380px;transform:scale(.85);transform-origin:top center}.laptop{right:50%;margin-right:-210px}
+ .feat,.shots,.ab{grid-template-columns:1fr}.ab{padding:30px}
+}
+.rv.in.skip{animation:none}
+.rv.skip .ic svg,.rv.skip .go svg,.rv.skip.in .ic svg,.rv.skip.in .go svg{animation:none!important}
+.frame{max-width:1000px;margin:auto;background:var(--card);border-radius:20px;box-shadow:0 24px 60px rgba(10,138,106,.22);overflow:hidden;transition:transform .4s,box-shadow .4s}
+.frame:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 34px 70px rgba(10,138,106,.32)}
+.chrome{display:flex;align-items:center;gap:7px;padding:12px 16px;background:#eef3f1;font-size:13px;color:#4f6470}
+.chrome i{width:11px;height:11px;border-radius:50%;background:#f06a5e}.chrome i:nth-child(2){background:#f4bf4f}.chrome i:nth-child(3){background:#5ec269}.chrome span{margin-left:12px}
+.frame img{width:100%;display:block}
+.chips{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:34px}
+.chips span{display:flex;align-items:center;gap:10px;background:var(--card);box-shadow:var(--sh);padding:12px 22px;border-radius:30px;font-weight:600;transition:transform .25s}
+.chips span:hover{transform:translateY(-4px) scale(1.05)}
+.chips svg{width:22px;color:var(--g)}
+.ct{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.cc{background:var(--card);border-radius:22px;padding:28px 20px;text-align:center;box-shadow:var(--sh);border:1px solid transparent;transition:transform .3s,border-color .3s,box-shadow .3s}
+.cc:hover{transform:translateY(-8px);border-color:var(--g);box-shadow:0 18px 40px rgba(10,138,106,.22)}
+.cc .ic{margin:0 auto 14px}.cc:hover .ic{transform:rotate(-10deg) scale(1.12)}
+.cc b{display:block;font-size:17px}.cc span{color:var(--mut);font-size:14px;word-break:break-all}
+#contact{padding-top:40px;padding-bottom:30px}
+@media(max-width:980px){.ct{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}.rv{opacity:1;translate:none;scale:none}}
+:focus-visible{outline:3px solid var(--g2);outline-offset:3px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="cap" viewBox="0 0 64 56"><path d="M32 2 2 16l30 14 30-14z" fill="#0a8a6a"/><path d="M14 26v12c0 6 8 12 18 12s18-6 18-12V26L32 34z" fill="#10a37f"/><path d="M58 18v18" stroke="#f2b84b" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+
+<header><nav>
+  <a href="#home" class="logo" data-go="home"><svg viewBox="0 0 64 56"><use href="#cap"/></svg><span><b>el</b> <span>website</span></span></a>
+ <button class="menu" aria-label="Menu" onclick="document.querySelector('.links').classList.toggle('open')"><svg viewBox="0 0 24 24" width="28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+ <div class="links">
+  <a class="nl" href="#contact" data-go="contact">Contact</a>
+  <a class="nl" href="#about" data-go="about">About</a>
+  <a class="nl" href="#features" data-go="features">Features</a>
+  <a class="nl" href="#exams" data-go="exams">Exams</a>
+  <a class="nl on" href="#home" data-go="home">Home</a>
+  <!-- تم ربط زر اللوج ان هنا لينقل الطالب لصفحة تسجيل الدخول login.html -->
+  <a class="btn" href="login.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Login</a>
+ </div>
+</nav></header>
+
+<main>
+<section id="home">
+ <div class="blob" style="width:520px;height:520px;right:-120px;top:80px"></div>
+ <div class="blob" style="width:170px;height:170px;left:-60px;top:330px"></div>
+ <div>
+  <div class="pill rv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Learn <span>Practice</span> Succeed</div>
+  <h1 class="rv" style="--d:.1s">Welcome to <span>el website</span></h1>
+  <p class="lead rv" style="--d:.2s">An advanced online examination platform to practice exams, improve your skills, and achieve your goals.</p>
+  <a class="btn rv" style="--d:.3s;padding:20px 40px;font-size:19px" href="#exams" data-go="exams">Start Now <svg class="arr" viewBox="0 0 24 24"><use href="#arrow"/></svg></a>
+ </div>
+ <div class="stage rv" style="--d:.2s" id="stage">
+  <svg class="cap" viewBox="0 0 64 56"><use href="#cap"/></svg>
+  <svg class="books" viewBox="0 0 170 110"><rect x="10" y="60" width="150" height="40" rx="6" fill="#10a37f"/><rect x="22" y="68" width="136" height="24" rx="3" fill="#fff"/><rect x="26" y="20" width="130" height="40" rx="6" fill="#0a8a6a"/><rect x="38" y="28" width="116" height="24" rx="3" fill="#fff"/></svg>
+  <div class="laptop" id="laptop"><div class="screen"><div class="in">
+   <div class="top"><span>⏱ <span>00:59:32</span></span><span>1 / 50</span></div>
+   <div class="opt"><i></i><u></u></div><div class="opt sel"><i></i><u></u></div><div class="opt"><i></i><u style="max-width:45%"></u></div><div class="opt"><i></i><u style="max-width:30%"></u></div>
+  </div></div><div class="base"></div></div>
+ </div>
+ <div class="feat" id="features">
+  <a class="fc rv" style="--d:.1s" href="#features"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg></div><div><h3>Timed Exams</h3><p>Real countdown timer and full-screen exam mode.</p></div><span class="go"><svg viewBox="0 0 24 24"><use href="#arrow"/></svg></span></a>
+  <a class="fc rv" style="--d:.2s" href="#features"><div class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="12" width="4.5" height="9" rx="1"/><rect x="9.8" y="6" width="4.5" height="15" rx="1"/><rect x="16.5" y="9" width="4.5" height="12" rx="1"/></svg></div><div><h3>Track Your Progress</h3><p>See your results and identify your strengths.</p></div><span class="go"><svg viewBox="0 0 24 24"><use href="#arrow"/></svg></span></a>
+  <a class="fc rv" style="--d:.3s" href="#features"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></div><div><h3>Secure &amp; Reliable</h3><p>Your data is safe with our secure platform.</p></div><span class="go"><svg viewBox="0 0 24 24"><use href="#arrow"/></svg></span></a>
+ </div>
+</section>
+
+<section id="exams">
+ <div class="sec-t rv"><h2>Exams that feel like the real school exams</h2><p>Same layout, same timer, same pressure. Practice in the exact format you will face on exam day.</p></div>
+ <div class="frame rv"><div class="chrome"><i></i><i></i><i></i><span>Online Examination</span></div><img src="data:image/webp;base64,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2bFf3oWp+m7sYx7101zBw1hSj5u6W4aV5jR5v3M+sKj9pS10/m3wzVn13j2wQ0D7o52K1yFjG6fHqH2d4x0b8a2sI6V1WwZ607z9vQnC82a3zE3C98Vl/s/s/O1bWp0DqZp887XvL7sO2J68gL3fC/78g9o6q+7XjL6fNf5195e3o6d91206d+306T0+ZkG3K0xNfO717vO7d191vfvf393d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3label>
+<span class="chips">
+  <span class="rv" style="--d:.1s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>Live countdown timer</span>
+  <span class="rv" style="--d:.2s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Question navigator</span>
+  <span class="rv" style="--d:.3s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>Review before you finish</span>
+ </div>
+</section>
+
+<section id="about">
+ <div class="ab rv">
+  <div>
+   <h2>About el website</h2>
+   <p>el website is an educational platform that specializes in simulating the look and feel of the real exam, so students arrive fully prepared and confident on exam day.</p>
+   <div class="tags"><span>Real exam format</span><span>Timed practice</span><span>Instant results</span></div>
+  </div>
+  <div class="stats">
+   <div class="stat rv" style="--d:.15s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/></svg></div><b>Real timer</b></div>
+   <div class="stat rv" style="--d:.3s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8"/></svg></div><b>Full-screen mode</b></div>
+   <div class="stat rv" style="--d:.45s"><div class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="12" width="4.5" height="9" rx="1"/><rect x="9.8" y="6" width="4.5" height="15" rx="1"/><rect x="16.5" y="9" width="4.5" height="12" rx="1"/></svg></div><b>Progress tracking</b></div>
+   <div class="stat rv" style="--d:.6s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></div><b>Secure data</b></div>
+  </div>
+ </div>
+</section>
+<section id="contact">
+ <div class="sec-t rv"><h2>Contact us</h2><p>Questions or feedback? Reach us on any of these channels.</p></div>
+ <div class="ct"><a class="cc rv" style="--d:.1s" href="#"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 3 2.5 10.5l6 2.2 2.3 6.8 3.4-4.3 5.3 3.9zM8.5 12.7 21.5 3"/></svg></div><b>Telegram</b><span>Your Telegram account</span></a><a class="cc rv" style="--d:.2s" href="#"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-12 7l-5 1 1.5-4.5A8 8 0 1 1 21 12z"/></svg></div><b>WhatsApp</b><span>Your WhatsApp number</span></a><a class="cc rv" style="--d:.3s" href="#"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></div><b>Facebook</b><span>Your Facebook account</span></a><a class="cc rv" style="--d:.4s" href="#"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></div><b>Instagram</b><span>Your Instagram account</span></a></div>
+ <footer>© 2026 el website. All rights reserved.</footer>
+</section>
+</main>
+
+<script>
+document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();
+  const id=a.dataset.go;
+  document.querySelector('.links').classList.remove('open');
+  if(id==='contact') window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'});
+  else if(id==='home') window.scrollTo({top:0,behavior:'smooth'});
+  else document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}));
+const rvs=[...document.querySelectorAll('.rv')];
+let lastY=scrollY,up=false;
+function reset(el){el.classList.add('skip');el.classList.remove('in');void el.offsetWidth;el.classList.remove('skip')}
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  const el=e.target;
+  if(e.intersectionRatio>=.15){el.classList.add('in');if(up)el.classList.add('skip')}
+  else if(e.intersectionRatio===0&&e.boundingClientRect.top>0&&el.classList.contains('in'))reset(el);
+}),{threshold:[0,.15]});
+rvs.forEach(el=>io.observe(el));
+function skipped(){rvs.forEach(el=>{if(!el.classList.contains('in')&&el.getBoundingClientRect().bottom<0){el.classList.add('in','skip')}})}
+const links=[...document.querySelectorAll('a.nl')];
+function spy(){
+  const y=scrollY+innerHeight*.4,bottom=scrollY+innerHeight>=document.documentElement.scrollHeight-8;
+  const top=id=>document.getElementById(id).getBoundingClientRect().top+scrollY;
+  let cur='home';
+  if(bottom)cur='contact';
+  else if(top('about')<=y)cur='about';
+  else if(top('exams')<=y)cur='exams';
+  else if(top('features')<=y)cur='features';
+  links.forEach(l=>l.classList.toggle('on',l.dataset.go===cur));
+}
+addEventListener('scroll',()=>{up=scrollY<lastY;lastY=scrollY;spy();skipped()},{passive:true});spy();
+const st=document.getElementById('stage'),lp=document.getElementById('laptop');
+if(matchMedia('(hover:hover)').matches)st.addEventListener('mousemove',e=>{
+  const r=st.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+  lp.style.transform=`rotateY(${-14+x*16}deg) rotateX(${4-y*12}deg)`;
+});
+st.addEventListener('mouseleave',()=>lp.style.transform='');
+</script>
+</body>
+</html>
